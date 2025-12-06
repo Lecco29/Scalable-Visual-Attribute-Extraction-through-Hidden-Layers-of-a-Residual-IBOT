@@ -14,8 +14,6 @@ __pycache__/
 # repositorio clonado do ibot
 ibot_repo/
 
-# dados e imagens
-data/
 
 # ide
 .vscode/
