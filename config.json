@@ -1,0 +1,49 @@
+{
+    "modelo": {
+        "nome": "ibot",
+        "tipo": "vit_small",
+        "pretrained": true,
+        "patch_size": 16,
+        "image_size": 224,
+        "embed_dim": 384,
+        "num_blocos": 12
+    },
+    "blocos": {
+        "block0": {"dim": 384},
+        "block1": {"dim": 384},
+        "block2": {"dim": 384},
+        "block3": {"dim": 384},
+        "block4": {"dim": 384},
+        "block5": {"dim": 384},
+        "block6": {"dim": 384},
+        "block7": {"dim": 384},
+        "block8": {"dim": 384},
+        "block9": {"dim": 384},
+        "block10": {"dim": 384},
+        "block11": {"dim": 384}
+    },
+    "projetoIBot": {
+        "knn_k": 5,
+        "cv_folds": 5,
+        "batch_size": 64,
+        "feature_type": "CLS"
+    },
+    "dataset": {
+        "color": {
+            "csv": "data/labels_color.csv",
+            "images": "data/images/color",
+            "num_classes": 10,
+            "num_images": 1000
+        },
+        "texture": {
+            "csv": "data/labels_texture.csv",
+            "images": "data/images/texture",
+            "num_classes": 10,
+            "num_images": 1000
+        }
+    },
+    "normalizacao": {
+        "mean": [0.485, 0.456, 0.406],
+        "std": [0.229, 0.224, 0.225]
+    }
+}

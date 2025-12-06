@@ -1,0 +1,27 @@
+# ambiente virtual
+venv/
+env/
+
+# cache do python
+__pycache__/
+*.pyc
+*.pyo
+
+# pesos do modelo 
+*.pth
+*.safetensors
+
+# repositorio clonado do ibot
+ibot_repo/
+
+# dados e imagens
+data/
+
+# ide
+.vscode/
+.idea/
+
+# sistema
+.DS_Store
+Thumbs.db
+
