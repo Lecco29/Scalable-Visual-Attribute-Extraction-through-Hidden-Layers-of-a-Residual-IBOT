@@ -240,19 +240,19 @@ class ExtratorIBot:
             checkpoint = torch.load(caminhoPesos, map_location='cpu', weights_only=False)
             
             if 'state_dict' in checkpoint:
-                stateDict = checkpoint['state_dict']
+                pesos = checkpoint['state_dict']
             elif 'model' in checkpoint:
-                stateDict = checkpoint['model']
+                pesos = checkpoint['model']
             else:
-                stateDict = checkpoint
+                pesos = checkpoint
             
             # remove prefixos
-            novoStateDict = {}
-            for k, v in stateDict.items():
-                novoK = k.replace('backbone.', '').replace('module.', '')
-                novoStateDict[novoK] = v
+            pesosLimpos = {}
+            for chave, valor in pesos.items():
+                novaChave = chave.replace('backbone.', '').replace('module.', '')
+                pesosLimpos[novaChave] = valor
             
-            msg = self.model.load_state_dict(novoStateDict, strict=False)
+            self.model.load_state_dict(pesosLimpos, strict=False)
             print(f"[IBot] Pesos carregados!")
         else:
             print(f"[IBot] ERRO: pesos nao encontrados")
@@ -272,19 +272,19 @@ class ExtratorIBot:
     # essa funcao registra hooks nos blocos para capturar features
     def registrarHooks(self):
         
-        def criarHook(idx):
-            def hook(modulo, entrada, saida):
-                self.features[f'block_{idx}'] = saida
-            return hook
+        def criarHook(indice):
+            def funcaoHook(modulo, entrada, saida):
+                self.features[f'block_{indice}'] = saida
+            return funcaoHook
         
-        for hook in self.hooks:
-            hook.remove()
+        for h in self.hooks:
+            h.remove()
         self.hooks = []
         
         for i, bloco in enumerate(self.model.blocks):
             if i < self.numBlocos:
-                hook = bloco.register_forward_hook(criarHook(i))
-                self.hooks.append(hook)
+                h = bloco.register_forward_hook(criarHook(i))
+                self.hooks.append(h)
         
         print(f"[IBot] Registrados {len(self.hooks)} hooks")
     

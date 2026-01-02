@@ -9,15 +9,15 @@ from tqdm import tqdm
 def extrairFeatures(extrator, imagens, dispositivo, tamanhoBatch=64):
     
     todasFeatures = {f'block{i}': [] for i in range(12)}
-    nBatches = (len(imagens) + tamanhoBatch - 1) // tamanhoBatch
+    numBatches = (len(imagens) + tamanhoBatch - 1) // tamanhoBatch
     
-    for i in tqdm(range(nBatches), desc="Extraindo"):
+    for i in tqdm(range(numBatches), desc="Extraindo"):
         inicio = i * tamanhoBatch
         fim = min((i + 1) * tamanhoBatch, len(imagens))
-        batch = imagens[inicio:fim].to(dispositivo)
+        lote = imagens[inicio:fim].to(dispositivo)
         
         # extrai features
-        features = extrator.extrairFeatures(batch, aplicarGAP=True)
+        features = extrator.extrairFeatures(lote, aplicarGAP=True)
         
         for bloco, feat in features.items():
             todasFeatures[bloco].append(feat.numpy())
@@ -33,15 +33,15 @@ def extrairFeatures(extrator, imagens, dispositivo, tamanhoBatch=64):
 def extrairFeaturesComCLS(extrator, imagens, dispositivo, tamanhoBatch=64):
     
     todasFeatures = {f'block{i}': [] for i in range(12)}
-    nBatches = (len(imagens) + tamanhoBatch - 1) // tamanhoBatch
+    numBatches = (len(imagens) + tamanhoBatch - 1) // tamanhoBatch
     
-    for i in tqdm(range(nBatches), desc="Extraindo (CLS)"):
+    for i in tqdm(range(numBatches), desc="Extraindo (CLS)"):
         inicio = i * tamanhoBatch
         fim = min((i + 1) * tamanhoBatch, len(imagens))
-        batch = imagens[inicio:fim].to(dispositivo)
+        lote = imagens[inicio:fim].to(dispositivo)
         
         # extrai features com CLS
-        features = extrator.extrairFeaturesComCLS(batch)
+        features = extrator.extrairFeaturesComCLS(lote)
         
         for bloco, feat in features.items():
             todasFeatures[bloco].append(feat.numpy())
